@@ -1,0 +1,45 @@
+%%Alapti Sai Varun
+%%1410110037
+%%Discussed :
+%%
+clc;
+clear all;
+close all;
+%% 
+I = imread('goldhill.png');
+A=double(I(:,1));
+N=512;
+for n=0:1:N-1
+    for k=0:1:N-1
+        C(n+1,k+1)=2*cos((pi*k*((2*n)+1))/(2*N));
+        D(n+1,k+1)=exp((2*pi*(-1)*1j*k*n)/(N));
+    end
+end
+DCT=C.'*A;
+DFT=D.'*A;
+gDCT=[];
+gDFT=[];
+for L=101:2:501
+    mDCT=zeros(N,1);
+    mDFT=zeros(N,1);
+    for n=0:1:N-L-1
+        mDCT(n+1,1) = DCT(n+1,1);
+    end
+    for n=0:1:((N-L-1)/2)
+        mDFT(n+1,1) = DFT(n+1,1);
+    end
+    for n=((N+L+1)/2):1:N-1
+        mDFT(n+1,1) = DFT(n+1,1);
+    end
+    iDFT=ifft(mDFT);
+    iDCT=inv(C.')*mDCT;
+    eDCT=abs(A-iDCT).^2;
+    gDCT=[gDCT ((sum(eDCT))/N)];
+    eDFT=abs(A-iDFT).^2;
+    gDFT=[gDFT ((sum(eDFT))/N)];
+end
+L=101:2:501;
+plot(gDFT); hold on 
+plot(gDCT);
+legend('DFT error','DCT error');
+

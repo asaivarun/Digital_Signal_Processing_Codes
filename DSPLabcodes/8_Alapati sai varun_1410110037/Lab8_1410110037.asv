@@ -1,0 +1,50 @@
+%%Alapti Sai Varun
+%%1410110037
+%%Discussed :
+%%
+clc;
+clear all;
+close all;
+%% 1_1 creating C
+N=4;
+
+for n=0:1:N-1
+    for k=0:1:N-1
+        C(n+1,k+1)=2*cos((pi*k*((2*n)+1))/(2*N));
+    end
+end
+%% 2nd 
+Con= C*C'; % C*C' = NICondition is not satisfied
+%% 3rd
+I=[1,2,3,4];
+CT=C.'*I';
+ICT=inv(C)*CT;
+
+%%4 Creating D and  Finding DFT
+ID=I;
+for i=N+1:1:2*N
+    ID(1,i)=I(2*N-i+1);
+end
+for n=0:1:2*N-1
+    for k=0:1:2*N-1
+        D(n+1,k+1)=exp((2*pi*(-1)*1j*k*n)/(2*N));
+    end
+end
+
+DFT=D*ID';
+for i=0:1:N-1
+    DCT(i+1,1)=DFT(i+1,1)*exp((pi*(-1)*1j*i)/(2*N));
+end
+
+%Compared with values got in question3, Both are same.
+%% 5  
+N=4;
+B=1/sqrt(2);
+B=[B ones(1,N-1);
+for n=0:1:N-1
+    for k=0:1:N-1
+        C1(n+1,k+1)=sqrt(2/N)*B(n+1)*cos((pi*k*((2*n)+1))/(2*N));
+    end
+end
+%% 2nd 
+Con= C*C';
